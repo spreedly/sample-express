@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Spreedly Checkout Demo Page</title>
+  <script type="text/javascript">
+    var masterFormOnsubmit = function() {
+      var name = document.getElementById('master-form-name').value;
+      if (name !== ''){
+        document.getElementById('spreedly-checkout-script').setAttribute('spreedly-data-full-name', name);
+        masterFormReady = true;
+      }
+      var fieldsToAddToCheckout =  ["address1","city","state","zip",]
+      for ( var i = 0 ; i < fieldsToAddToCheckout.length ; i ++){
+        spreedlyPaymentFrame.setParam(fieldsToAddToCheckout[i], document.getElementsByName(fieldsToAddToCheckout[i])[0].value);
+      }
+     
+    }
+  </script>
+</head>
+
+<body>
+<h1> Food and Stuff </h1>
+<h2> Invoice</h2>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;border-top-width:1px;border-bottom-width:1px;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;border-top-width:1px;border-bottom-width:1px;}
+.tg .tg-alt{background-color:#f9f9f9}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg">Item Number</th>
+    <th class="tg">Description</th>
+    <th class="tg">Quantity</th>
+    <th class="tg">Price</th>
+    <th class="tg">Total</th>
+  </tr>
+  <tr>
+    <td class="tg">F-01</td>
+    <td class="tg">Food</td>
+    <td class="tg">1</td>
+    <td class="tg">10.12</td>
+    <td class="tg">10.12</td>
+  </tr>
+  <tr>
+    <td class="tg">S-03</td>
+    <td class="tg">Stuff</td>
+    <td class="tg">2</td>
+    <td class="tg">12.09</td>
+    <td class="tg">24.18</td>
+  </tr>
+  <tr>
+    <td class="tg-alt">Total</td>
+    <td class="tg-alt"></td>
+    <td class="tg-alt">3 items</td>
+    <td class="tg-alt"></td>
+    <td class="tg-alt">34.30</td>
+  </tr>
+</table>
+<br/>
+
+  <form action="/result.html" method="GET" id="sco-form" onsubmit="masterFormOnsubmit()">
+    <label for="master-form-name">Name</label>
+    <input type="text"id="master-form-name" name="full_name">
+    <br/>
+    <label for="master-form-street-address">Street</label>
+    <input type="text"id="master-form-street-address" name="address1">
+    <br/>
+    <label for="master-form-city-address">City</label>
+    <input type="text"id="master-form-city-address" name="city">
+    <br/>
+    <label for="master-form-state-address">State</label>
+    <input type="text"id="master-form-state-address" name="state">
+    <br/>
+    <label for="master-form-zip-address">Zip code</label>
+    <input type="text"id="master-form-zip-address" name="zip">
+    <br/>
+    <input id="sco-form-submit" type="submit" class="test-button" value="Pay Now" disabled="true">
+    <script
+      src="http://core.spreedly.dev/iframe/checkout-0.4.js" id="spreedly-checkout-script"
+      spreedly-data-key="a7DayrGZdQYdpz3A2LG1bUKi6L0"
+      spreedly-data-full-name="John Smith"
+      spreedly-data-amount="2000.01"
+      spreedly-data-company-name="Food and Stuff"
+      spreedly-data-company-description="This is where you can buy all your food and most of your stuff"
+      spreedly-data-item-description="2 foods </br> 1 stuff">
+    </script>
+  </form>
+</body>
+</html>

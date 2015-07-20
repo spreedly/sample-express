@@ -1,0 +1,31 @@
+<html>
+<body>
+  <h1>Spreedly Checkout success</h1>
+  <p>  Spreedly checkout successfully added a payment token to the master form prior to submission.  The payment token as well as any other form information was submitted successfully </p>
+
+  <h3>Submitted parameters</h3>
+  <ul id="parameters">
+  </ul>
+
+  <a href="/index.html">Back to payment screen</a>
+  <br/>
+
+
+  <script>
+  function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+  var params = ['full_name', 'street', 'city', 'state', 'zip', 'payment_method_token']
+  var ul = document.getElementById('parameters');
+  for(var i = 0; i < params.length; i++) {
+    li = document.createElement('li');
+    var param = params[i];
+    li.innerHTML = param + ': ' + getParameterByName(param);
+    ul.appendChild(li);
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "sample-checkout",
+  "version": "0.0.1",
+  "description": "Sample page using Spreedly Checkout",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spreedly/sample-checkout.git"
+  },
+  "scripts": {
+    "start": "static -p 8000 ."
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "node-static": "^0.7.6"
+  },
+  "author": "Miki Rezentes"
+}
