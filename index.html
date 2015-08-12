@@ -1,93 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Spreedly Checkout Demo Page</title>
-  <script type="text/javascript">
-    var masterFormOnsubmit = function() {
-      var name = document.getElementById('master-form-name').value;
-      if (name !== ''){
-        document.getElementById('spreedly-checkout-script').setAttribute('spreedly-data-full-name', name);
-        masterFormReady = true;
-      }
-      var fieldsToAddToCheckout =  ["address1","city","state","zip",]
-      for ( var i = 0 ; i < fieldsToAddToCheckout.length ; i ++){
-        spreedlyPaymentFrame.setParam(fieldsToAddToCheckout[i], document.getElementsByName(fieldsToAddToCheckout[i])[0].value);
-      }
-     
-    }
-  </script>
+  <title>Spreedly Express Demo Page</title>
+  <style>
+  #content{
+    width:500px;
+    margin:0 auto;
+  }
+  </style>
 </head>
 
 <body>
-<h1> Food and Stuff </h1>
+<div class="container" id="content">
+<h1> Food 'n Stuff </h1>
 <h2> Invoice</h2>
-
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;border-top-width:1px;border-bottom-width:1px;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;border-top-width:1px;border-bottom-width:1px;}
-.tg .tg-alt{background-color:#f9f9f9}
-</style>
-<table class="tg">
+<table class="table table-bordered table-striped table-hover table-condensed">
   <tr>
-    <th class="tg">Item Number</th>
-    <th class="tg">Description</th>
-    <th class="tg">Quantity</th>
-    <th class="tg">Price</th>
-    <th class="tg">Total</th>
+    <th>Item Number</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
   </tr>
   <tr>
-    <td class="tg">F-01</td>
-    <td class="tg">Food</td>
-    <td class="tg">1</td>
-    <td class="tg">10.12</td>
-    <td class="tg">10.12</td>
+    <td>F-01</td>
+    <td>Ground Beef</td>
+    <td>2</td>
+    <td>10.12</td>
+    <td>10.12</td>
   </tr>
   <tr>
-    <td class="tg">S-03</td>
-    <td class="tg">Stuff</td>
-    <td class="tg">2</td>
-    <td class="tg">12.09</td>
-    <td class="tg">24.18</td>
+    <td>S-03</td>
+    <td>Crow</td>
+    <td>2</td>
+    <td>2.00</td>
+    <td>4.00</td>
   </tr>
   <tr>
-    <td class="tg-alt">Total</td>
-    <td class="tg-alt"></td>
-    <td class="tg-alt">3 items</td>
-    <td class="tg-alt"></td>
-    <td class="tg-alt">34.30</td>
+    <td>Total</td>
+    <td></td>
+    <td>4 items</td>
+    <td></td>
+    <td>24.24</td>
   </tr>
 </table>
 <br/>
-
-  <form action="/result.html" method="GET" id="sco-form" onsubmit="masterFormOnsubmit()">
-    <label for="master-form-name">Name</label>
-    <input type="text"id="master-form-name" name="full_name">
-    <br/>
-    <label for="master-form-street-address">Street</label>
-    <input type="text"id="master-form-street-address" name="address1">
-    <br/>
-    <label for="master-form-city-address">City</label>
-    <input type="text"id="master-form-city-address" name="city">
-    <br/>
-    <label for="master-form-state-address">State</label>
-    <input type="text"id="master-form-state-address" name="state">
-    <br/>
-    <label for="master-form-zip-address">Zip code</label>
-    <input type="text"id="master-form-zip-address" name="zip">
-    <br/>
-    <input id="sco-form-submit" type="submit" class="test-button" value="Pay Now" disabled="true">
+<div class="form-group">
+  <form class="form-horizontal" role="form" action="/result.html" method="GET" id="express-form">
+    <div class="col-sm-offset-3 col-sm-5">  
+      <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
+      </div>
     <script
-      src="http://core.spreedly.dev/iframe/checkout-0.4.js" id="spreedly-checkout-script"
-      spreedly-data-key="a7DayrGZdQYdpz3A2LG1bUKi6L0"
-      spreedly-data-full-name="John Smith"
-      spreedly-data-amount="2000.01"
-      spreedly-data-company-name="Food and Stuff"
-      spreedly-data-company-description="This is where you can buy all your food and most of your stuff"
-      spreedly-data-item-description="2 foods </br> 1 stuff">
+      src="https://core.spreedly.com/iframe/express-0.1.min.js" id="express-script"
+      data-environment-key="TbWAYgG7qaagGBh7hPjXQxS4DM4"
+      data-amount="$24.24"
+      data-company-name="Food 'n Stuff"
+      data-sidebar-top-description="This is where you can buy all your food and most of your stuff"
+      data-sidebar-bottom-description="2 ground beef </br> 2 crows">
     </script>
   </form>
+  </div>
+</div>
 </body>
 </html>

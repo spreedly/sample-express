@@ -7,18 +7,17 @@
 <body>
 <div class="container">
   <h1>Spreedly Express success</h1>
-  <p>  Spreedly Express successfully added a payment token to the sample form. </p>
+  <p>  Spreedly Express successfully added a payment token to the master form.  Through the use of data-params the values (address1, city, state, and zip) from the sample form were added to the Spreedly payment method token.  The payment token was then added to the sample form. </p>
   <p> The sample form was submitted successfully!!! </p>
 
-  <h3>Parameters Submitted From Master Form</h3>
+  <h3>Parameters Submitted From Sample Form</h3>
   <ul id="parameters">
   </ul>
   <br/>
-  <a href="/index.html">Back to basic example</a>
-
+  <a href="/sample.html">Back to example - sample.html</a>
   <br/><br/><br/>
 
-   <a href="/sample.html">View other example at sample.html</a>
+  <a href="/index.html">View basic sample - index.html</a>
 </div>
 
   <script>
@@ -28,7 +27,7 @@
           results = regex.exec(location.search);
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
-  var params = ['payment_method_token']
+  var params = ['full_name', 'address1', 'city', 'state', 'zip', 'payment_method_token']
   var ul = document.getElementById('parameters');
   for(var i = 0; i < params.length; i++) {
     li = document.createElement('li');

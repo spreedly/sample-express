@@ -1,13 +1,13 @@
 {
-  "name": "sample-checkout",
+  "name": "sample-express",
   "version": "0.0.1",
-  "description": "Sample page using Spreedly Checkout",
+  "description": "Sample page using Spreedly Express",
   "repository": {
     "type": "git",
-    "url": "https://github.com/spreedly/sample-checkout.git"
+    "url": "https://github.com/spreedly/sample-express.git"
   },
   "scripts": {
-    "start": "static -p 8000 ."
+    "start": "static -p 8001 ."
   },
   "engines": {
     "node": "0.10.x"
