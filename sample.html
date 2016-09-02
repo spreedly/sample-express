@@ -7,19 +7,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Spreedly Express Demo Page</title>
+  <script src="https://core.spreedly.com/iframe/express-2.min.js" id="express-script"></script>
   <script type="text/javascript">
-    var formOnsubmit = function() {
-      var name = document.getElementById('sample-form-name').value;
-      if (name !== ''){
-        document.getElementById('express-script').setAttribute('data-full-name', name);
-        document.getElementById('express-script').setAttribute('data-amount', "$24.24");
-        continueToExpress = true;
+
+    var environmentKey= "TbWAYgG7qaagGBh7hPjXQxS4DM4"
+
+    var options = {
+    company_name: "Food 'n Stuff",
+    sidebar_top_description: "This is where you can buy all your food and most of your stuff",
+    sidebar_bottom_description: "2 ground beef </br> 2 crows"}
+
+    SpreedlyExpress.init(environmentKey,options);
+
+    SpreedlyExpress.onModalOpen = function() {
+      var name = document.getElementById('full_name').value;
+      var displayOptions = {
+        'amount' : "$24.24"
       }
+      if (name !== ''){
+        displayOptions['full_name'] = name;
+      }
+      SpreedlyExpress.setModalDisplay(displayOptions);
+      var paymentMethodParameters = {};
       var fieldsToAddToExpress =  ["address1","city","state","zip",]
       for ( var i = 0 ; i < fieldsToAddToExpress.length ; i ++){
-        document.getElementById('express-script').setAttribute('data-' + fieldsToAddToExpress[i], document.getElementsByName(fieldsToAddToExpress[i])[0].value);
+        options[fieldsToAddToExpress[i]] = document.getElementById(fieldsToAddToExpress[i]).value;
       }
-     
+      return true;
     }
   </script>
   <style>
@@ -68,54 +82,42 @@
 <div class="form-group">
   <form class="form-horizontal" role="form" action="/sampleresult.html" method="GET" id="express-form" onsubmit="formOnsubmit()" >
     <div class="form-group">
-    <label class="control-label  col-sm-1" for="sample-form-name">Name</label>
+    <label class="control-label  col-sm-1" for="full_name">Name</label>
     <div class="col-sm-8">
-      <input  class="form-control" type="text"id="sample-form-name" name="full_name" required>
+      <input  class="form-control" type="text" id="full_name" name="full_name" required>
     </div>
     </div>
 
     <div class="form-group">
-    <label class="control-label  col-sm-1" for="sample-form-street-address">Street</label>
+    <label class="control-label  col-sm-1" for="address1">Street</label>
     <div class="col-sm-8">
-      <input  class="form-control" type="text"id="sample-form-street-address" name="address1" required>
+      <input  class="form-control" type="text" id="address1" name="address1"  required>
     </div>
     </div>
 
     <div class="form-group">
-    <label class="control-label  col-sm-1" for="sample-form-city-address">City</label>
+    <label class="control-label  col-sm-1" for="city">City</label>
     <div class="col-sm-8">
-      <input  class="form-control" type="text"id="sample-form-city-address" name="city" required>
+      <input  class="form-control" type="text" id="city" name="city" required>
     </div>
-    
+
     </div>
 
     <div class="form-group">
-    <label class="control-label  col-sm-1" for="sample-form-state-address">State</label>
+    <label class="control-label  col-sm-1" for="state"">State</label>
     <div class="col-sm-2">
-      <input  class="form-control" type="text"id="sample-form-state-address" name="state"required>
+      <input  class="form-control" type="text" id="state"" name="state" required>
     </div>
-    <label class="control-label  col-sm-1" for="sample-form-zip-address">Zip</label>
+    <label class="control-label  col-sm-1" for="zip">Zip</label>
     <div class="col-sm-3">
-      <input  class="form-control" type="text"id="sample-form-zip-address" name="zip">
+      <input  class="form-control" type="text" id="zip" name="zip">
     </div>
     </div>
 
-    <div class="col-sm-offset-2 col-sm-4">  
+    <div class="col-sm-offset-2 col-sm-4">
       <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Continue</button>
       </div>
-    <script
-      src="https://core.spreedly.com/iframe/express-1.min.js" id="express-script"
-      data-environment-key="TbWAYgG7qaagGBh7hPjXQxS4DM4"
-      data-amount=""
-      data-company-name="Food 'n Stuff"
-      data-sidebar-top-description="This is where you can buy all your food and most of your stuff"
-      data-sidebar-bottom-description="2 ground beef </br> 2 crows"
-      'data-full-name'=""
-      'data-address1'=""
-      'data-city'=""
-      'data-state'=""
-      'data-zip'=""
-      >
+
     </script>
   </form>
   </div>

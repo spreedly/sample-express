@@ -7,6 +7,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Spreedly Express Demo Page</title>
+    <script src="https://core.spreedly.com/iframe/express-2.min.js" id="express-script"></script>
+    <script type="text/javascript">
+
+    var environmentKey= "TbWAYgG7qaagGBh7hPjXQxS4DM4"
+
+    var options = {
+    company_name: "Food 'n Stuff",
+    sidebar_top_description: "This is where you can buy all your food and most of your stuff",
+    sidebar_bottom_description: "2 ground beef </br> 2 crows"}
+
+    SpreedlyExpress.init(environmentKey,options);
+  </script>
   <style>
   #content{
     width:500px;
@@ -52,17 +64,9 @@
 <br/>
 <div class="form-group">
   <form class="form-horizontal" role="form" action="/result.html" method="GET" id="express-form">
-    <div class="col-sm-offset-3 col-sm-5">  
+    <div class="col-sm-offset-3 col-sm-5">
       <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
-      </div>
-    <script
-      src="https://core.spreedly.com/iframe/express-1.min.js" id="express-script"
-      data-environment-key="TbWAYgG7qaagGBh7hPjXQxS4DM4"
-      data-amount="$24.24"
-      data-company-name="Food 'n Stuff"
-      data-sidebar-top-description="This is where you can buy all your food and most of your stuff"
-      data-sidebar-bottom-description="2 ground beef </br> 2 crows">
-    </script>
+    </div>
   </form>
   </div>
 </div>
