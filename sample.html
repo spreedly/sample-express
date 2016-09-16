@@ -17,9 +17,25 @@
     sidebar_top_description: "This is where you can buy all your food and most of your stuff",
     sidebar_bottom_description: "2 ground beef </br> 2 crows"}
 
+    var enableButton = function(){
+      document.getElementById("ready-to-pay").disabled = false;
+    }
+    SpreedlyExpress.onInit(enableButton);
+
+    var handlePaymentToken = function(token, formData) {
+      var form = document.getElementById('payment-form')
+      var input = document.createElement("input");
+      input.type = "text";
+      input.name = "token";
+      input.value = token;
+      form.appendChild(input)
+      form.submit();
+    }
+    SpreedlyExpress.onPaymentMethod(handlePaymentToken);
+
     SpreedlyExpress.init(environmentKey,options);
 
-    SpreedlyExpress.onModalOpen = function() {
+    var validateBeforeOpeningExpress = function() {
       var name = document.getElementById('full_name').value;
       var displayOptions = {
         'amount' : "$24.24"
@@ -27,13 +43,14 @@
       if (name !== ''){
         displayOptions['full_name'] = name;
       }
-      SpreedlyExpress.setModalDisplay(displayOptions);
+      SpreedlyExpress.setDisplayOptions(displayOptions);
       var paymentMethodParameters = {};
       var fieldsToAddToExpress =  ["address1","city","state","zip",]
       for ( var i = 0 ; i < fieldsToAddToExpress.length ; i ++){
         options[fieldsToAddToExpress[i]] = document.getElementById(fieldsToAddToExpress[i]).value;
       }
-      return true;
+      SpreedlyExpress.openView();
+      return false;
     }
   </script>
   <style>
@@ -80,7 +97,7 @@
 </table>
 <br/>
 <div class="form-group">
-  <form class="form-horizontal" role="form" action="/sampleresult.html" method="GET" id="express-form" onsubmit="formOnsubmit()" >
+  <form class="form-horizontal" role="form" action="/sampleresult.html" method="GET" id="payment-form" onsubmit="return false;" >
     <div class="form-group">
     <label class="control-label  col-sm-1" for="full_name">Name</label>
     <div class="col-sm-8">
@@ -115,7 +132,7 @@
     </div>
 
     <div class="col-sm-offset-2 col-sm-4">
-      <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Continue</button>
+      <button  id="ready-to-pay" onclick="validateBeforeOpeningExpress();" class="btn btn-primary btn-block" disabled="true">Continue</button>
       </div>
 
     </script>

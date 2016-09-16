@@ -17,12 +17,30 @@
     sidebar_top_description: "This is where you can buy all your food and most of your stuff",
     sidebar_bottom_description: "2 ground beef </br> 2 crows"}
 
+    var enableButton = function(){
+      document.getElementById("ready-to-pay").disabled = false;
+    }
+    SpreedlyExpress.onInit(enableButton);
+
+    var handlePaymentToken = function(token, formData) {
+      document.getElementById('full_name').value = formData["full_name"]
+      document.getElementById('month').value = formData["month"]
+      document.getElementById('year').value = formData["year"]
+      document.getElementById('token').value = token
+
+      document.getElementById('payment-form').submit();
+    }
+    SpreedlyExpress.onPaymentMethod(handlePaymentToken);
+
     SpreedlyExpress.init(environmentKey,options);
   </script>
   <style>
   #content{
     width:500px;
     margin:0 auto;
+  }
+  .results {
+    visibility: hidden;
   }
   </style>
 </head>
@@ -63,12 +81,18 @@
 </table>
 <br/>
 <div class="form-group">
-  <form class="form-horizontal" role="form" action="/result.html" method="GET" id="express-form">
-    <div class="col-sm-offset-3 col-sm-5">
-      <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
-    </div>
-  </form>
+<div class="col-sm-offset-3 col-sm-5">
+  <button  id="ready-to-pay" onclick="SpreedlyExpress.openView();" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
+</div>
   </div>
+<form class="form-horizontal" role="form" action="/result.html" method="GET" id="payment-form">
+  <div class="col-sm-offset-3 col-sm-5">
+    <input  class="results" type="text" id="full_name" name="full_name" required>
+    <input  class="results" type="text" id="month" name="month" required>
+    <input  class="results" type="text" id="year" name="year" required>
+    <input  class="results" type="text" id="token" name="token" required>
+  </div>
+</form>
 </div>
 </body>
 </html>
