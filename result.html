@@ -28,7 +28,7 @@
           results = regex.exec(location.search);
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
-  var params = ['token', 'full_name', 'month', 'year']
+  var params = ['payment_method_token', 'full_name', 'month', 'year']
   var ul = document.getElementById('parameters');
   for(var i = 0; i < params.length; i++) {
     li = document.createElement('li');

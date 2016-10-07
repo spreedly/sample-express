@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Spreedly Express Demo Page</title>
+  <style>
+  #content{
+    width:500px;
+    margin:0 auto;
+  }
+  </style>
+</head>
+
+<body>
+<div class="container" id="content">
+<h1> Food 'n Stuff </h1>
+<h2> Invoice</h2>
+<table class="table table-bordered table-striped table-hover table-condensed">
+  <tr>
+    <th>Item Number</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <td>F-01</td>
+    <td>Ground Beef</td>
+    <td>2</td>
+    <td>10.12</td>
+    <td>10.12</td>
+  </tr>
+  <tr>
+    <td>S-03</td>
+    <td>Crow</td>
+    <td>2</td>
+    <td>2.00</td>
+    <td>4.00</td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td></td>
+    <td>4 items</td>
+    <td></td>
+    <td>24.24</td>
+  </tr>
+</table>
+<br/>
+<div class="form-group">
+  <form class="form-horizontal" role="form" action="/result.html" method="GET" id="express-form">
+    <div class="col-sm-offset-3 col-sm-5">
+      <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
+      </div>
+    <script
+      src="https://core.spreedly.com/iframe/express-2.min.js" id="express-script"
+      data-environment-key="TbWAYgG7qaagGBh7hPjXQxS4DM4"
+      data-amount="$24.24"
+      data-company-name="Food 'n Stuff"
+      data-sidebar-top-description="This is where you can buy all your food and most of your stuff"
+      data-sidebar-bottom-description="2 ground beef </br> 2 crows">
+    </script>
+  </form>
+  <script type="text/javascript">
+    // convert data block data to options hashes
+    var spreedlyGetData = function(deprecated, current) {
+      var dataBlock = document.getElementById('express-script');
+      var options = {};
+      for( var i = 0; i < deprecated.length; i++) {
+        var tempValue = null;
+        if(tempValue = document.getElementById('express-script').getAttribute(deprecated[i])){
+          options[current[i]] = tempValue;
+        }
+      }
+      return options;
+    }
+
+    var spreedlyDisplayDataOptions = function(){
+      var deprecatedDisplayFields = ["data-amount", "data-full-name", "data-company-name", "data-sidebar-top-description", "data-sidebar-bottom-description"];
+      var currentDisplayFields = ["amount", "full_name", "company_name", "sidebar_top_description", "sidebar_bottom_description"];
+      return spreedlyGetData(deprecatedDisplayFields, currentDisplayFields)
+    }
+
+    var spreedlyPaymentDataOptions = function () {
+      var deprecatedPaymentDataFields = ["data-email", "data-address1", "data-address2", "data-city", "data-state", "data-zip", "data-country", "data-phone_number", "data-company", "data-shipping_address1", "data-shipping_address2", "data-shipping_city", "data-shipping_state", "data-shipping_zip", "data-shipping_country", "data-shipping_phone_number"];
+      var currentPaymentDataFields = ["email", "address1", "address2", "city", "state", "zip", "country", "phone_number", "company", "shipping_address1", "shipping_address2", "shipping_city", "shipping_state", "shipping_zip", "shipping_country", "shipping_phone_number"];
+      return spreedlyGetData(deprecatedPaymentDataFields, currentPaymentDataFields)
+    }
+
+    // create a new onsubmit function
+    // new function will:
+    //     * statically validate the form constraints
+    //     * execute any existing onsubmit function
+    //     * if window.continueToExpress == true
+    //         * updates display values
+    //         * opens the view
+
+    var spreedlyValidateFormFields = function () {
+      return document.getElementById('express-form').checkValidity();
+    }
+
+    var spreedlyExistingOnsubmit = document.getElementById('express-form').onsubmit;
+    if (!spreedlyExistingOnsubmit) {
+      window.continueToExpress = true;
+    }
+    if (typeof spreedlyExistingOnsubmit == 'function') {
+     window.continueToExpress = false;
+    }
+
+    var spreedlyExecuteOnViewOpenFunction = function() {
+      var validForm = spreedlyValidateFormFields();
+      if (!validForm) {
+        return;
+      }
+      if (spreedlyExistingOnsubmit) {
+        spreedlyExistingOnsubmit();
+      }
+      if(window.continueToExpress == true){
+        SpreedlyExpress.setDisplayOptions(spreedlyDisplayDataOptions());
+        SpreedlyExpress.setPaymentMethodParams(spreedlyPaymentDataOptions());
+        SpreedlyExpress.openView();
+      }
+    }
+    // set the express-submit button onclick to execute the onViewOpen functions
+    document.getElementById('express-submit').setAttribute('onclick', "spreedlyExecuteOnViewOpenFunction()");
+
+    // remove the onsubmit function from the form
+    document.getElementById('express-form').setAttribute('onsubmit', "return false;");
+
+
+    // initialize Express with environment key, display options and payment data options
+    // set the onInit function prior to calling SpreedlyExpress.init()
+    var spreedlyEnvironmentKey = (document.getElementById('express-script').getAttribute('data-environment-key'));
+    SpreedlyExpress.onInit(function (){
+      document.getElementById("express-submit").disabled = false;
+    });
+    SpreedlyExpress.init(spreedlyEnvironmentKey, spreedlyDisplayDataOptions(), spreedlyPaymentDataOptions())
+
+    // add returned token to form and submit
+    // implements v1 onPaymentMethod behavior
+    SpreedlyExpress.onPaymentMethod(function (token){
+      var paymentToken = document.createElement("INPUT");
+      paymentToken.setAttribute("type", "hidden");
+      paymentToken.setAttribute("name", "payment_method_token");
+      paymentToken.setAttribute("id", "payment_method_token");
+      paymentToken.setAttribute("value", token);
+      document.getElementById('express-form').appendChild(paymentToken);
+      document.getElementById('express-form').submit();
+    })
+  </script>
+  </div>
+</div>
+</body>
+</html>

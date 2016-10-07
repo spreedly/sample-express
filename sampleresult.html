@@ -27,7 +27,7 @@
           results = regex.exec(location.search);
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
-  var params = ['full_name', 'address1', 'city', 'state', 'zip', 'token']
+  var params = ['full_name', 'address1', 'city', 'state', 'zip', 'payment_method_token']
   var ul = document.getElementById('parameters');
   for(var i = 0; i < params.length; i++) {
     li = document.createElement('li');

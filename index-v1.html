@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Spreedly Express Demo Page</title>
+  <style>
+  #content{
+    width:500px;
+    margin:0 auto;
+  }
+  </style>
+</head>
+
+<body>
+<div class="container" id="content">
+<h1> Food 'n Stuff </h1>
+<h2> Invoice</h2>
+<table class="table table-bordered table-striped table-hover table-condensed">
+  <tr>
+    <th>Item Number</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <td>F-01</td>
+    <td>Ground Beef</td>
+    <td>2</td>
+    <td>10.12</td>
+    <td>10.12</td>
+  </tr>
+  <tr>
+    <td>S-03</td>
+    <td>Crow</td>
+    <td>2</td>
+    <td>2.00</td>
+    <td>4.00</td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td></td>
+    <td>4 items</td>
+    <td></td>
+    <td>24.24</td>
+  </tr>
+</table>
+<br/>
+<div class="form-group">
+  <form class="form-horizontal" role="form" action="/result.html" method="GET" id="express-form">
+    <div class="col-sm-offset-3 col-sm-5">  
+      <button  id="express-submit" type="submit" class="btn btn-primary btn-block" disabled="true">Buy Now</button>
+      </div>
+    <script
+      src="https://core.spreedly.com/iframe/express-1.min.js" id="express-script"
+      data-environment-key="TbWAYgG7qaagGBh7hPjXQxS4DM4"
+      data-amount="$24.24"
+      data-company-name="Food 'n Stuff"
+      data-sidebar-top-description="This is where you can buy all your food and most of your stuff"
+      data-sidebar-bottom-description="2 ground beef </br> 2 crows">
+    </script>
+  </form>
+  </div>
+</div>
+</body>
+</html>
