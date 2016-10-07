@@ -144,34 +144,37 @@
 
       // create a new onsubmit function
       // new function will:
+      //     * statically validate the form constraints
       //     * execute any existing onsubmit function
       //     * if window.continueToExpress == true
       //         * updates display values
       //         * opens the view
 
-      var spreedlyOnViewOpenFunctions = [];
+      var spreedlyValidateFormFields = function () {
+        return document.getElementById('express-form').checkValidity();
+      }
+
       var spreedlyExistingOnsubmit = document.getElementById('express-form').onsubmit;
       if (!spreedlyExistingOnsubmit) {
         window.continueToExpress = true;
       }
       if (typeof spreedlyExistingOnsubmit == 'function') {
-       spreedlyOnViewOpenFunctions.push(spreedlyExistingOnsubmit);
        window.continueToExpress = false;
       }
 
-      var spreedlyUpdateDisplayAndOpen = function (){
+      var spreedlyExecuteOnViewOpenFunction = function() {
+        var validForm = spreedlyValidateFormFields();
+        if (!validForm) {
+          return;
+        }
+        if (spreedlyExistingOnsubmit) {
+          spreedlyExistingOnsubmit();
+        }
         if(window.continueToExpress == true){
           SpreedlyExpress.setDisplayOptions(spreedlyDisplayDataOptions());
           SpreedlyExpress.setPaymentMethodParams(spreedlyPaymentDataOptions());
           SpreedlyExpress.openView();
         }
-      }
-      spreedlyOnViewOpenFunctions.push(spreedlyUpdateDisplayAndOpen);
-      var spreedlyExecuteOnViewOpenFunction = function() {
-        for(var i = 0; i < spreedlyOnViewOpenFunctions.length; i++){
-          spreedlyOnViewOpenFunctions[i]();
-        }
-        return window.continueToExpress;
       }
       // set the express-submit button onclick to execute the onViewOpen functions
       document.getElementById('express-submit').setAttribute('onclick', "spreedlyExecuteOnViewOpenFunction()");
