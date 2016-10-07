@@ -129,26 +129,33 @@
         }
         return options;
       }
+
       var spreedlyDisplayDataOptions = function(){
         var deprecatedDisplayFields = ["data-amount", "data-full-name", "data-company-name", "data-sidebar-top-description", "data-sidebar-bottom-description"];
         var currentDisplayFields = ["amount", "full_name", "company_name", "sidebar_top_description", "sidebar_bottom_description"];
         return spreedlyGetData(deprecatedDisplayFields, currentDisplayFields)
       }
+
       var spreedlyPaymentDataOptions = function () {
         var deprecatedPaymentDataFields = ["data-email", "data-address1", "data-address2", "data-city", "data-state", "data-zip", "data-country", "data-phone_number", "data-company", "data-shipping_address1", "data-shipping_address2", "data-shipping_city", "data-shipping_state", "data-shipping_zip", "data-shipping_country", "data-shipping_phone_number"];
         var currentPaymentDataFields = ["email", "address1", "address2", "city", "state", "zip", "country", "phone_number", "company", "shipping_address1", "shipping_address2", "shipping_city", "shipping_state", "shipping_zip", "shipping_country", "shipping_phone_number"];
         return spreedlyGetData(deprecatedPaymentDataFields, currentPaymentDataFields)
-
       }
 
-      // create a new onsubmit function which executes any existing submit, updates values then opens the view;
-      var spreedlyOnsubmitFunctions = [];
+      // create a new onsubmit function
+      // new function will:
+      //     * execute any existing onsubmit function
+      //     * if window.continueToExpress == true
+      //         * updates display values
+      //         * opens the view
+
+      var spreedlyOnViewOpenFunctions = [];
       var spreedlyExistingOnsubmit = document.getElementById('express-form').onsubmit;
       if (!spreedlyExistingOnsubmit) {
         window.continueToExpress = true;
       }
       if (typeof spreedlyExistingOnsubmit == 'function') {
-       spreedlyOnsubmitFunctions.push(spreedlyExistingOnsubmit);
+       spreedlyOnViewOpenFunctions.push(spreedlyExistingOnsubmit);
        window.continueToExpress = false;
       }
 
@@ -159,17 +166,22 @@
           SpreedlyExpress.openView();
         }
       }
-      spreedlyOnsubmitFunctions.push(spreedlyUpdateDisplayAndOpen);
-      var spreedlyExecuteOnsubmitFunction = function() {
-        for(var i = 0; i < spreedlyOnsubmitFunctions.length; i++){
-          spreedlyOnsubmitFunctions[i]();
+      spreedlyOnViewOpenFunctions.push(spreedlyUpdateDisplayAndOpen);
+      var spreedlyExecuteOnViewOpenFunction = function() {
+        for(var i = 0; i < spreedlyOnViewOpenFunctions.length; i++){
+          spreedlyOnViewOpenFunctions[i]();
         }
         return window.continueToExpress;
       }
+      // set the express-submit button onclick to execute the onViewOpen functions
+      document.getElementById('express-submit').setAttribute('onclick', "spreedlyExecuteOnViewOpenFunction()");
+
+      // remove the onsubmit function from the form
       document.getElementById('express-form').setAttribute('onsubmit', "return false;");
-      document.getElementById('express-submit').setAttribute('onclick', "spreedlyExecuteOnsubmitFunction()");
+
 
       // initialize Express with environment key, display options and payment data options
+      // set the onInit function prior to calling SpreedlyExpress.init()
       var spreedlyEnvironmentKey = (document.getElementById('express-script').getAttribute('data-environment-key'));
       SpreedlyExpress.onInit(function (){
         document.getElementById("express-submit").disabled = false;
@@ -177,6 +189,7 @@
       SpreedlyExpress.init(spreedlyEnvironmentKey, spreedlyDisplayDataOptions(), spreedlyPaymentDataOptions())
 
       // add returned token to form and submit
+      // implements v1 onPaymentMethod behavior
       SpreedlyExpress.onPaymentMethod(function (token){
         var paymentToken = document.createElement("INPUT");
         paymentToken.setAttribute("type", "hidden");
