@@ -36,6 +36,11 @@
     SpreedlyExpress.init(environmentKey,options);
 
     var validateBeforeOpeningExpress = function() {
+
+      var valid_form =  document.getElementById('payment-form').checkValidity();
+      if(!valid_form) {
+        return;
+      }
       var name = document.getElementById('full_name').value;
       var displayOptions = {
         'amount' : "$24.24"

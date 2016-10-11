@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Spreedly Express Demo Page</title>
-    <script src="https://core.spreedly.com/iframe/express-2.min.js" id="express-script"></script>
+    <script src="http://localhost:8000/iframe/express-2.js" id="express-script"></script>
     <script type="text/javascript">
 
     var environmentKey= "TbWAYgG7qaagGBh7hPjXQxS4DM4"
@@ -15,7 +15,8 @@
     var options = {
     company_name: "Food 'n Stuff",
     sidebar_top_description: "This is where you can buy all your food and most of your stuff",
-    sidebar_bottom_description: "2 ground beef </br> 2 crows"}
+    sidebar_bottom_description: "2 ground beef </br> 2 crows",
+    amount: "$24.24"}
 
     var enableButton = function(){
       document.getElementById("ready-to-pay").disabled = false;
