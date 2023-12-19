@@ -18,6 +18,7 @@ http {
   # These are piped to STDOUT by the start_nginx script (created by the buildpack)
   error_log          logs/error.log;
   access_log         logs/access.log;
+  server_tokens      off;
 
   server {
 
