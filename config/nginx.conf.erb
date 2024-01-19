@@ -54,9 +54,25 @@ http {
     add_header       Vary Accept-Encoding;
     add_header       Cache-Control public;
 
+    # Block certain file access
+    # https://www.mnot.net/blog/2010/04/07/well-known
+    # https://tools.ietf.org/html/rfc5785
+    # a) Prevent clients from accessing hidden files (starting with a dot)
+    <%# location ~* /\.(?!well-known/) {
+        deny all;
+        log_not_found off;
+        access_log off;
+    } %>
+
+    location ~\.(md|git*|txt|json|log)|(Procfile|README|LICENSE).*$ {
+      deny all;
+      return 404;
+    }
+
     # Generated site at "public" root dir
     location / {
       root           /app/;
+      limit_except GET HEAD POST { deny all; }
       # expires        <%= ENV['DEFAULT_TTL'] || 3600 %>s;
       expires max;
       try_files      $uri $uri/ $uri.html index.html;
